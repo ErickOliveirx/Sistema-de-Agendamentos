@@ -1,0 +1,26 @@
+const express = require("express");
+
+const pool = require("./config/database");
+
+const homeRoutes = require("./routes/homeRoutes");
+const appointmentRoutes = require("./routes/appointmentRoutes");
+
+
+const app = express();
+
+app.use(express.json());
+
+app.use(homeRoutes);
+app.use(appointmentRoutes);
+
+pool.connect()
+    .then(() => {
+        console.log("Banco de dados conectado com sucesso!");
+    })
+    .catch((error) => {
+        console.log("Erro ao conectar no banco:", error);
+    });
+
+app.listen(3000, () => {
+    console.log("Servidor rodando na porta 3000");
+});
