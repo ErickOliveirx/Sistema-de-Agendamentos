@@ -49,8 +49,17 @@ const getAppointmentsService = async () => {
     return resultado.rows;
 };
 
+const deleteAppointmentService = async (id) => {
+    const resultado = await pool.query( 
+        "DELETE FROM agendamentos WHERE id = $1 RETURNING *", 
+        [id]
+    );
+
+    return resultado.rows[0];
+}
+
 module.exports = {
     createAppointmentService,
-    getAppointmentsService
+    getAppointmentsService,
+    deleteAppointmentService
 };
-

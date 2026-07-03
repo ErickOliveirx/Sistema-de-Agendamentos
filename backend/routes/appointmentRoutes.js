@@ -4,12 +4,14 @@ const router = express.Router();
 
 const {
     createAppointment,
-    getAppointments
+    getAppointments,
+    deleteAppointment
 } = require("../controllers/appointmentController");
 
 router.post("/agendamentos", createAppointment);
 
 router.get("/agendamentos", getAppointments);
 
-module.exports = router;
+router.delete("/agendamentos/:id", deleteAppointment);
 
+module.exports = router;

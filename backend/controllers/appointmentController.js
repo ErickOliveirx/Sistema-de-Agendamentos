@@ -1,9 +1,9 @@
 const {
     createAppointmentService,
-    getAppointmentsService
+    getAppointmentsService,
+    deleteAppointmentService
 } = require("../services/appointmentService");
 
-cde
 const createAppointment = async (req, res) => {
 
     const {
@@ -65,8 +65,33 @@ const getAppointments = async (req, res) => {
     }
 };
 
+const deleteAppointment = async (req, res) => {
+    const {id} = req.params;
+    try {
+        const agendamentoRemovido =
+            await deleteAppointmentService(id);
+        if (!agendamentoRemovido) {
+            return res
+            .status(404)
+            .send("Agendamento não encontrado.");
+        }
+        return res
+        .status(200)
+        .json(agendamentoRemovido);
+
+    } catch (error) {
+        console.log(error);
+        
+        return res
+        .status(500)
+        .send("Erro ao remover agendamento.");
+
+    }
+};
+
 module.exports = {
     createAppointment,
-    getAppointments
+    getAppointments,
+    deleteAppointment
 };
 
