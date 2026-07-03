@@ -5,6 +5,7 @@ const pool = require("./config/database");
 const homeRoutes = require("./routes/homeRoutes");
 const appointmentRoutes = require("./routes/appointmentRoutes");
 
+require("dotenv").config();
 
 const app = express();
 
