@@ -3,6 +3,7 @@ const express = require("express");
 const pool = require("./config/database");
 
 const homeRoutes = require("./routes/homeRoutes");
+const userRoutes = require("./routes/userRoutes");
 const appointmentRoutes = require("./routes/appointmentRoutes");
 
 require("dotenv").config();
@@ -12,6 +13,7 @@ const app = express();
 app.use(express.json());
 
 app.use(homeRoutes);
+app.use(userRoutes);
 app.use(appointmentRoutes);
 
 pool.connect()

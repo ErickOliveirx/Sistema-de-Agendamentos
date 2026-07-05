@@ -4,11 +4,13 @@ const createUserService = async (dados) => {
 
     const {
         nome,
+        telefone,
         email,
         senha
     } = dados;
 
-   
+    const tipo = "CLIENTE";
+
     const { rows } = await pool.query(
         "SELECT * FROM usuarios WHERE email = $1",
         [email]
@@ -18,27 +20,37 @@ const createUserService = async (dados) => {
         throw new Error("Email já cadastrado.");
     }
 
-    
-    const result = await pool.query(
-        `
+    const query = `
         INSERT INTO usuarios
         (
-    nome,
-    telefone,
-    email,
-    senha,
-    tipo,
-    especialidade || null
-]
-        VALUES ($1, $2, $3)
-        RETURNING *
-        `,
-        [nome, email, senha]
-    );
+            nome,
+            telefone,
+            email,
+            senha_hash,
+            tipo
+        )
+        VALUES
+        (
+            $1,
+            $2,
+            $3,
+            $4,
+            $5
+        )
+        RETURNING *;
+    `;
+
+    const result = await pool.query(query, [
+        nome,
+        telefone,
+        email,
+        senha, // Depois será bcrypt
+        tipo
+    ]);
 
     return result.rows[0];
 };
 
 module.exports = {
-    createUserService,
+    createUserService
 };
